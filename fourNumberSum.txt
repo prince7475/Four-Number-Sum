@@ -1,0 +1,61 @@
+Write a function that takes in an array of numbers and 
+finds all quadruplets in the array that sum up to the target sum
+
+function fourNumberSum(array, targetSum){
+  let hashMap = {}
+  let result = []
+  for(let i = 1; i < array.length; i++){
+    let currNum = array[i]
+    for(let j = i + 1; j < array.length; j++){
+      let prevNum = array[j]
+      let currSum = currNum + prevNum
+      let remainder = targetSum - currSum
+      if(remainder in hashMap) {
+        hashMap[remainder].forEach((pair) => {
+          result.push(pair.concat(currNum, prevNum))
+        })
+      }
+    }
+    
+    for(let k = 0; k < i; k++){
+      let num = array[k]
+      let prevSum = num + currNum
+      if(!(prevSum in hashMap)) hashMap[prevSum] = []
+      hashMap[prevSum].push([num, currNum])
+    }
+  }
+  
+  return result
+}
+
+
+Time -> O(N^2)
+space --> O(N)
+Main(array,target)
+hashMap = {
+  10: [[6,4]]
+}
+
+let result = []
+Loop through - start at idx = 1
+  let currNum = array[i]
+  - 2 inner loop
+    1st loop -> j =  i + 1
+      - Add its value to the currNum
+      let forwardNum = currNum + array[j]
+      let remainder = target - forwardNum
+      if(remainder in hashMap){
+        hashMap[remainder].forEach((arr) => {
+          result.push(arr.concat(currNum, array[j]))
+        })
+      }
+      
+      
+      2nd loop k = 0 >> k < i --> add items to hashMap
+        let prevNum = Add array[k] + currNum
+        if(!(prevNum in hashMap)) hashMap[prevNum] = []
+        hashMap[prevNum].push([array[k], currNum])
+        
+      
+      
+   return result
